@@ -3,8 +3,8 @@ import {Button, SystemStyleObject} from "@chakra-ui/react";
 
 interface CustomButtonProps {
     name: string;
-    onClick: () => void;
-    disabled?: boolean;
+    onClick?: () => void;
+    disabled: boolean | false
     type: "button" | "submit" | "reset";
     customStyles?: SystemStyleObject;
     size?: string;
@@ -20,7 +20,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
                                                    }) => {
     return (
 
-        <Button colorScheme="gray" variant='outline' borderColor='gray' backgroundColor='white' borderRadius='0'
+        <Button colorScheme="gray" variant='outline' border='2px solid black' backgroundColor='white' borderRadius='0'
                 width='80px' boxShadow=" 2px 2px #000" transition="all ease-in 0.3s" _hover={{bg: "lightskyblue"}}
                 onClick={onClick} type={type} disabled={disabled} sx={{...customStyles}} size={size}>
             {name}

@@ -1,5 +1,5 @@
 import {Box, Td} from "@chakra-ui/react";
-import CustomButton from "../CustomButton/CustomButton";
+import CustomButton from "../commonUI/CustomButton/CustomButton";
 
 const ImportExportMenu = () => {
 
