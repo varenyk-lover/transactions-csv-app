@@ -1,19 +1,17 @@
-import {Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CustomSelect from "../commonUI/CustomSelect/CustomSelect";
 
 
 const FilterMenu = () => {
-
-
     const statusOptions = [
-        {value: "Pending", label: "Pending"},
-        {value: "Completed", label: "Completed"},
-        {value: "Cancelled", label: "Cancelled"},
+        { value: "Pending", label: "Pending" },
+        { value: "Completed", label: "Completed" },
+        { value: "Cancelled", label: "Cancelled" },
     ];
 
     const typeOptions = [
-        {value: "Withdrawal", label: "Withdrawal"},
-        {value: "Refill", label: "Refill"},
+        { value: "Withdrawal", label: "Withdrawal" },
+        { value: "Refill", label: "Refill" },
     ];
 
     const handleStatusChange = () => {
@@ -26,9 +24,9 @@ const FilterMenu = () => {
     return (
         <Box width='50%' display='flex' justifyContent='column' gap='10px' marginBottom='125px'>
             <CustomSelect placeholder="Status"
-                          onChange={handleStatusChange} options={statusOptions}  />
+                onChange={handleStatusChange} options={statusOptions} />
             <CustomSelect placeholder="Type"
-                          onChange={handleTypeChange} options={typeOptions}  />
+                onChange={handleTypeChange} options={typeOptions} />
         </Box>
     );
 };

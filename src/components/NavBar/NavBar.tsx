@@ -1,4 +1,4 @@
-import {Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import styled from "styled-components";
 
 
@@ -20,6 +20,7 @@ export default NavBar;
 
 
 const StyledNavBar = styled.nav`
+height: 30vh;
   width: 20%; 
   border: 2px solid black;
 `;

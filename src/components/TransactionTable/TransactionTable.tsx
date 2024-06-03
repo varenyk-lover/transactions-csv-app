@@ -3,21 +3,23 @@ import CustomButton from "../commonUI/CustomButton/CustomButton";
 import {useState} from "react";
 import EditModal from "../EditModal/EditModal";
 import DeleteModal from "../DeletModal/DeleteModal";
+import {useTSelector} from "../hooks/reduxHooks";
+import {Transaction} from "../../types/Transaction";
 
 const TransactionTable: React.FC = () => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
-    const [selectedTransaction, setSelectedTransaction] = useState<number | null>(null);
+    const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
+    const transactions = useTSelector((state) => state.transactions.allTransactions);
 
-    // for test
-    const transactionID = 1;
+    console.log(transactions);
 
     const editBtnStyle = {
         width: "80px",
     };
 
-    const openDeleteModal = (transaction) => {
+    const openDeleteModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setDeleteModalOpen(true);
         console.log("open DeleteModal");
@@ -29,7 +31,7 @@ const TransactionTable: React.FC = () => {
         setSelectedTransaction(null);
     };
 
-    const openEditModal = (transaction) => {
+    const openEditModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setEditModalOpen(true);
         console.log("open EditModal");
@@ -42,15 +44,9 @@ const TransactionTable: React.FC = () => {
     };
 
 
-    const handleEditSubmit = () => {
-        console.log("handle Edit Submit");
-        closeEditModal();
-    };
-
     const handleDeleteConfirm = () => {
         console.log("handle Delete Submit");
-            closeDeleteModal();
-
+        closeDeleteModal();
     };
 
     return (
@@ -68,37 +64,25 @@ const TransactionTable: React.FC = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    <Tr>
-                        <Td textAlign="center">{transactionID}</Td>
-                        <Td textAlign="center">Pending</Td>
-                        <Td textAlign="center">Refill</Td>
-                        <Td textAlign="center">Viktor Bulkin</Td>
-                        <Td textAlign="center">$100.59</Td>
-                        <Td display='flex' justifyContent='space-around'>
-                            <Box display='flex' width="170px" gap='10px' justifyContent='space-between'>
-                                <CustomButton onClick={() => openEditModal(1)} name='Edit' type='button'
-                                              customStyles={editBtnStyle}/>
-                                <CustomButton onClick={() => openDeleteModal(1)} name='Delete'
-                                              type='button'/>
-                            </Box>
-                        </Td>
-                    </Tr>
+                    {transactions.map((transaction: Transaction) => (
+                        <Tr key={transaction.id}>
+                            <Td textAlign="center">{transaction.id}</Td>
+                            <Td textAlign="center">{transaction.status}</Td>
+                            <Td textAlign="center">{transaction.type}</Td>
+                            <Td textAlign="center">{transaction.clientName}</Td>
+                            <Td textAlign="center">{transaction.amount}</Td>
+                            <Td display='flex' justifyContent='space-around'>
+                                <Box display='flex' width="170px" gap='10px' justifyContent='space-between'>
+                                    <CustomButton onClick={() => openEditModal(transaction)} name='Edit' type='button'
+                                                  customStyles={editBtnStyle}/>
+                                    <CustomButton onClick={() => openDeleteModal(transaction)} name='Delete'
+                                                  type='button'/>
+                                </Box>
+                            </Td>
+                        </Tr>
 
-                    <Tr>
-                        <Td textAlign="center">2</Td>
-                        <Td textAlign="center">Fulfilled</Td>
-                        <Td textAlign="center">Refill</Td>
-                        <Td textAlign="center">Loom Fill</Td>
-                        <Td textAlign="center">$20.59</Td>
-                        <Td display='flex' justifyContent='space-around'>
-                            <Box display='flex' width="170px" gap='10px' justifyContent='space-between'>
-                                <CustomButton onClick={() => console.log("test")} name='Edit' type='button'
-                                              customStyles={editBtnStyle}/>
-                                <CustomButton onClick={() => console.log("test")} name='Delete' type='button'/>
-                            </Box>
-                        </Td>
-                    </Tr>
 
+                    ))}
                 </Tbody>
             </Table>
 
@@ -106,7 +90,6 @@ const TransactionTable: React.FC = () => {
                 <EditModal
                     isOpen={isEditModalOpen}
                     onClose={closeEditModal}
-                    onSubmit={handleEditSubmit}
                     transaction={selectedTransaction}
                 />
             )}

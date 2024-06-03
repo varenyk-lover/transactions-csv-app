@@ -1,4 +1,4 @@
-import {Box, Td} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
 
 const ImportExportMenu = () => {
@@ -21,12 +21,12 @@ const ImportExportMenu = () => {
 
     return (
 
-        <Box   display='flex' width='400' gap='10px'
-             justifyContent='space-between'>
+        <Box display='flex' width='400' gap='10px'
+            justifyContent='space-between'>
             <CustomButton onClick={() => handleImport()} name='Import' type='button' size='lg'
-                          customStyles={bigBtnStyle}/>
+                customStyles={bigBtnStyle} />
             <CustomButton onClick={() => handleExport()} name='Export' type='button' size='lg'
-                          customStyles={bigBtnStyle}/>
+                customStyles={bigBtnStyle} />
         </Box>
 
     );

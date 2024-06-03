@@ -8,28 +8,29 @@ import {
     ModalOverlay
 } from "@chakra-ui/react";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
+import {Transaction} from "../../types/Transaction";
 
 
 interface DeleteModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
-//    for test
-    transaction: number;
+    //    for test
+    transaction: Transaction;
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, onClose, onConfirm, transaction,}) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onConfirm, transaction, }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay/>
+            <ModalOverlay />
             <ModalContent>
                 <ModalHeader textAlign='center' paddingTop='40px'>Confirm Deletion</ModalHeader>
-                <ModalCloseButton/>
+                <ModalCloseButton />
                 <ModalBody padding='0 40px'>
-                    Are you sure you want to delete the transaction with ID {transaction}?
+                    Are you sure you want to delete the transaction with ID {transaction.id}?
                 </ModalBody>
                 <ModalFooter>
-                    <CustomButton name='Delete' type='button' onClick={onConfirm}/>
+                    <CustomButton name='Delete' type='button' onClick={onConfirm} />
                 </ModalFooter>
             </ModalContent>
         </Modal>
