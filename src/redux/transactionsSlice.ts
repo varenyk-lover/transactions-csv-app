@@ -23,13 +23,21 @@ const transactionsSlice = createSlice({
             state.allTransactions = action.payload;
             state.filteredTransactions = action.payload;
         },
+        addTransactions(state, action: PayloadAction<Transaction[]>) {
+            state.allTransactions = [...state.allTransactions, ...action.payload];
+            state.filteredTransactions = [...state.allTransactions, ...action.payload];
+        },
+        updateTransactionStatus(state, action: PayloadAction<{ TransactionId: number, Status: string }>) {
+            state.allTransactions = state.allTransactions.map( t => t.TransactionId === action.payload.TransactionId ? {...t, Status: action.payload.Status} : t);
+            state.filteredTransactions = state.filteredTransactions.map( t => t.TransactionId === action.payload.TransactionId ? {...t, Status: action.payload.Status} : t);
+        },
         deleteTransactions(state, action: PayloadAction<number>) {
-            state.allTransactions = state.allTransactions.filter( t => t.id !== action.payload);
-            state.filteredTransactions = state.filteredTransactions.filter( t => t.id !== action.payload );
+            state.allTransactions = state.allTransactions.filter( t => t.TransactionId !== action.payload);
+            state.filteredTransactions = state.filteredTransactions.filter( t => t.TransactionId !== action.payload );
         },
     }
 });
 
 
-export const { setTransactions, deleteTransactions } = transactionsSlice.actions;
+export const { setTransactions, updateTransactionStatus, deleteTransactions, addTransactions } = transactionsSlice.actions;
 export const transactionsReducer = transactionsSlice.reducer;

@@ -1,7 +1,7 @@
 export interface Transaction {
-    id: number;
-    status: string;
-    type: string;
-    clientName: string;
-    amount: string;
+    TransactionId: number;
+    Status: string;
+    Type: string;
+    ClientName: string;
+    Amount: string;
 }

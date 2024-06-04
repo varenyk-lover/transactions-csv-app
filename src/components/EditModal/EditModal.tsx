@@ -6,7 +6,7 @@ import {
     ModalCloseButton,
     ModalContent,
     ModalHeader,
-    ModalOverlay,
+    ModalOverlay, Select,
 } from "@chakra-ui/react";
 import CustomSelect from "../commonUI/CustomSelect/CustomSelect";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
@@ -17,12 +17,12 @@ import {Transaction} from "../../types/Transaction";
 interface EditModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onSubmit: (data: { Status: string }) => void;
     transaction: Transaction;
-
 }
 
-const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, transaction }) => {
-    const { handleSubmit, reset } = useForm<{ status: string }>();
+const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSubmit, transaction }) => {
+    const { handleSubmit, reset , register} = useForm<{ Status: string }>();
 
 
     const statusOptions = [
@@ -37,8 +37,9 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, transaction }) =
     };
 
     //for test
-    const handleSave = () => {
-        console.log('Save ID ' + transaction)
+    const handleSave = (data: {  Status: string }) => {
+        console.log(data)
+        onSubmit(data);
         handleClose();
     };
 
@@ -52,8 +53,18 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, transaction }) =
                     <StyledForm onSubmit={handleSubmit(handleSave)}>
                         <FormControl id="status">
                             {/*for test*/}
-                            <CustomSelect placeholder="Status"
-                                options={statusOptions} />
+                      {/*      <CustomSelect {...register('status', { required: true })} placeholder="Status"
+                                options={statusOptions} />*/}
+
+                            {/*for test*/}
+                            <Select defaultValue={transaction.Status} {...register('Status', { required: true })}>
+                                {statusOptions.map(option => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </Select>
+
                         </FormControl>
 
                         <CustomButton name='Save' type='submit' />

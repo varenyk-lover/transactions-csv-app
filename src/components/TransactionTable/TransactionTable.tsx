@@ -6,18 +6,21 @@ import DeleteModal from "../DeletModal/DeleteModal";
 import {useTDispatch, useTSelector} from "../hooks/reduxHooks";
 import {Transaction} from "../../types/Transaction";
 import PaginationMenu from "../PaginationMenu/PaginationMenu";
-import {deleteTransactions} from '../../redux/transactionsSlice';
+import {deleteTransactions, updateTransactionStatus} from "../../redux/transactionsSlice";
+
+
 const TransactionTable: React.FC = () => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-const dispatch = useTDispatch();
+    const dispatch = useTDispatch();
     const transactions = useTSelector((state) => state.transactions.allTransactions);
     const transactionsInPage = 10;
-console.log(currentPage);
-    const paginatedTransactions = transactions.slice((currentPage - 1) * transactionsInPage, currentPage * transactionsInPage);
+    console.log(currentPage);
+    const paginatedTransactions = transactions.slice((currentPage - 1) * transactionsInPage, currentPage *
+        transactionsInPage);
 
     console.log(transactions);
 
@@ -25,6 +28,7 @@ console.log(currentPage);
         width: "80px",
     };
 
+    //Deleting logic
     const openDeleteModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setDeleteModalOpen(true);
@@ -37,6 +41,16 @@ console.log(currentPage);
         setSelectedTransaction(null);
     };
 
+    const handleDeleteConfirm = () => {
+       if (selectedTransaction) {
+                    dispatch(deleteTransactions(selectedTransaction.TransactionId));
+                    closeDeleteModal();
+                    console.log("Deleted ID " + selectedTransaction.TransactionId);
+                }
+    };
+
+
+    //Editing logic
     const openEditModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setEditModalOpen(true);
@@ -49,13 +63,12 @@ console.log(currentPage);
         setSelectedTransaction(null);
     };
 
-
-    const handleDeleteConfirm = () => {
-   if(selectedTransaction) {
-       dispatch(deleteTransactions(selectedTransaction.id));
-       closeDeleteModal();
-       console.log("Deleted ID " + selectedTransaction.id);
-   }
+    const handleEditSubmit = (data: {   Status: string }) => {
+        if (selectedTransaction) {
+            dispatch(updateTransactionStatus({TransactionId: selectedTransaction.TransactionId, Status: selectedTransaction.Status}));
+            closeEditModal();
+            console.log("Edited ID " + selectedTransaction.TransactionId);
+        }
     };
 
     return (
@@ -74,12 +87,12 @@ console.log(currentPage);
                 </Thead>
                 <Tbody>
                     {paginatedTransactions.map((transaction: Transaction) => (
-                        <Tr key={transaction.id}>
-                            <Td textAlign="center">{transaction.id}</Td>
-                            <Td textAlign="center">{transaction.status}</Td>
-                            <Td textAlign="center">{transaction.type}</Td>
-                            <Td textAlign="center">{transaction.clientName}</Td>
-                            <Td textAlign="center">{transaction.amount}</Td>
+                        <Tr key={transaction.TransactionId}>
+                            <Td textAlign="center">{transaction.TransactionId}</Td>
+                            <Td textAlign="center">{transaction.Status}</Td>
+                            <Td textAlign="center">{transaction.Type}</Td>
+                            <Td textAlign="center">{transaction.ClientName}</Td>
+                            <Td textAlign="center">{transaction.Amount}</Td>
                             <Td display='flex' justifyContent='space-around'>
                                 <Box display='flex' width="170px" gap='10px' justifyContent='space-between'>
                                     <CustomButton onClick={() => openEditModal(transaction)} name='Edit' type='button'
@@ -95,11 +108,14 @@ console.log(currentPage);
                 </Tbody>
             </Table>
 
-            <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage} transactionsInPage={transactionsInPage} />
+            <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage}
+                            transactionsInPage={transactionsInPage}/>
+
             {selectedTransaction && (
                 <EditModal
                     isOpen={isEditModalOpen}
                     onClose={closeEditModal}
+                    onSubmit={handleEditSubmit}
                     transaction={selectedTransaction}
                 />
             )}
