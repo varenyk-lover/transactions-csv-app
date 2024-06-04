@@ -3,17 +3,17 @@ import CustomButton from "../commonUI/CustomButton/CustomButton";
 import {useState} from "react";
 import EditModal from "../EditModal/EditModal";
 import DeleteModal from "../DeletModal/DeleteModal";
-import {useTSelector} from "../hooks/reduxHooks";
+import {useTDispatch, useTSelector} from "../hooks/reduxHooks";
 import {Transaction} from "../../types/Transaction";
 import PaginationMenu from "../PaginationMenu/PaginationMenu";
-
+import {deleteTransactions} from '../../redux/transactionsSlice';
 const TransactionTable: React.FC = () => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-
+const dispatch = useTDispatch();
     const transactions = useTSelector((state) => state.transactions.allTransactions);
     const transactionsInPage = 10;
 console.log(currentPage);
@@ -51,8 +51,11 @@ console.log(currentPage);
 
 
     const handleDeleteConfirm = () => {
-        console.log("handle Delete Submit");
-        closeDeleteModal();
+   if(selectedTransaction) {
+       dispatch(deleteTransactions(selectedTransaction.id));
+       closeDeleteModal();
+       console.log("Deleted ID " + selectedTransaction.id);
+   }
     };
 
     return (
