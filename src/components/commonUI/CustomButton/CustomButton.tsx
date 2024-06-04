@@ -21,7 +21,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     return (
 
         <Button colorScheme="gray" variant='outline' border='2px solid black' backgroundColor='white' borderRadius='0'
-            width='80px' boxShadow=" 2px 2px #000" transition="all ease-in 0.3s" _hover={{ bg: "lightskyblue" }}
+            width='80px' boxShadow=" 2px 2px #000" transition="all ease-in 0.3s" _hover={{ bg: "lightskyblue" }} _disabled={{ bg: "red" }}
             onClick={onClick} type={type} disabled={disabled} sx={{ ...customStyles }} size={size}>
             {name}
         </Button>

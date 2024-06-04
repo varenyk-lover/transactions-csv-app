@@ -15,7 +15,6 @@ interface DeleteModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    //    for test
     transaction: Transaction;
 }
 

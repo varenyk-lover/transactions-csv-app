@@ -5,13 +5,19 @@ import EditModal from "../EditModal/EditModal";
 import DeleteModal from "../DeletModal/DeleteModal";
 import {useTSelector} from "../hooks/reduxHooks";
 import {Transaction} from "../../types/Transaction";
+import PaginationMenu from "../PaginationMenu/PaginationMenu";
 
 const TransactionTable: React.FC = () => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
 
     const transactions = useTSelector((state) => state.transactions.allTransactions);
+    const transactionsInPage = 10;
+console.log(currentPage);
+    const paginatedTransactions = transactions.slice((currentPage - 1) * transactionsInPage, currentPage * transactionsInPage);
 
     console.log(transactions);
 
@@ -64,7 +70,7 @@ const TransactionTable: React.FC = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {transactions.map((transaction: Transaction) => (
+                    {paginatedTransactions.map((transaction: Transaction) => (
                         <Tr key={transaction.id}>
                             <Td textAlign="center">{transaction.id}</Td>
                             <Td textAlign="center">{transaction.status}</Td>
@@ -86,6 +92,7 @@ const TransactionTable: React.FC = () => {
                 </Tbody>
             </Table>
 
+            <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage} transactionsInPage={transactionsInPage} />
             {selectedTransaction && (
                 <EditModal
                     isOpen={isEditModalOpen}
