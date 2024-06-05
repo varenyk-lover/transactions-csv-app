@@ -30,9 +30,6 @@ const ImportExportMenu = () => {
                 }
             });
         }
-
-
-        console.log("Import");
     };
 
     const handleExport = () => {
@@ -54,7 +51,7 @@ const ImportExportMenu = () => {
 
     return (
 
-        <Box display='flex' width='400' gap='10px'
+        <Box display='flex'  gap='10px'
             justifyContent='space-between'>
 
             <Box>

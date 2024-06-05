@@ -1,5 +1,5 @@
 export interface Transaction {
-    TransactionId: number;
+    TransactionId: string;
     Status: string;
     Type: string;
     ClientName: string;

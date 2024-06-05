@@ -21,12 +21,10 @@ const FilterMenu = () => {
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(filterTransaction({Status: e.target.value, Type: currentType}));
-        console.log("handle Status " + e.target.value);
     };
 
     const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(filterTransaction({Status: currentStatus, Type: e.target.value}));
-        console.log("handle Type " + e.target.value);
     };
     return (
         <Box width='50%' display='flex' justifyContent='column' gap='10px' marginBottom='90px'>

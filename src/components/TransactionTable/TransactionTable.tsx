@@ -18,8 +18,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({paginatedTransaction
     return (
         <>
 
-            <Box     minHeight='560px'>
-                <Table border="2px solid black" variant='striped' colorScheme="gray" size='sm' >
+            <Box minHeight='600px'>
+                <Table border="2px solid black" variant='striped' colorScheme="gray" size='sm'>
                     <Thead backgroundColor="#A0AEC0">
                         <Tr>
                             <Th textAlign="center" color='black'>ID</Th>
@@ -56,26 +56,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({paginatedTransaction
             </Box>
 
 
-          {/*  <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage}
-                            transactionsInPage={transactionsInPage}/>
-
-            {selectedTransaction && (
-                <EditModal
-                    isOpen={isEditModalOpen}
-                    onClose={closeEditModal}
-                    onSubmit={handleEditSubmit}
-                    transaction={selectedTransaction}
-                />
-            )}
-
-            {selectedTransaction && (
-                <DeleteModal
-                    isOpen={isDeleteModalOpen}
-                    onClose={closeDeleteModal}
-                    onConfirm={handleDeleteConfirm}
-                    transaction={selectedTransaction}
-                />
-            )}*/}
         </>
     );
 };

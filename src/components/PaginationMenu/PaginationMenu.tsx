@@ -1,4 +1,4 @@
-import {Box, Button} from "@chakra-ui/react";
+import {Box} from "@chakra-ui/react";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
 import {useEffect, useState} from "react";
 import {Transaction} from "../../types/Transaction";
@@ -16,12 +16,6 @@ const PaginationMenu: React.FC<PaginationMenuProps> = ({
 
     const [countPage, setCountPage] = useState<number>(1);
 
-    const paginateBtnStyle = {
-
-        _disabled: {
-            backgroundColor: "red",
-        }
-    };
 
     useEffect(() => {
         setCountPage(Math.ceil(transactions.length / transactionsInPage));
@@ -40,20 +34,23 @@ const PaginationMenu: React.FC<PaginationMenuProps> = ({
     };
 
     return (
-        <Box display='flex' justifyContent='space-around' padding='20px 0' gap='5px'>
-            <CustomButton btnName='&lt;' type='button' onClick={goToPrevPage} disabled={currentPage === 1}
-                          /*customStyles={currentPage === 1 ? paginateBtnStyle : {}}*/
+        <Box display='flex' justifyContent='space-around' padding='20px 0' gap='5px' width="95%" overflowX="auto">
+            <CustomButton btnName='&lt;' type='button' onClick={goToPrevPage}
+
             />
 
-            {Array.from({length: countPage}, (_, index) => (
-                <CustomButton key={index + 1} btnName={index + 1} type='button' onClick={() => onPageChange(index + 1)}
-                              customStyles={currentPage === index + 1 ? { bg: "#035689", color: "white" } : {}}
+            <Box width="70%" overflowX="auto" display="flex" justifyContent="space-around" paddingBottom="10px">
+                {Array.from({length: countPage}, (_, index) => (
+                    <CustomButton key={index + 1} btnName={(index + 1).toString()} type='button'
+                                  onClick={() => onPageChange(index + 1)}
+                                  customStyles={currentPage === index + 1 ? {bg: "#035689", color: "white"} : {}}
 
-                />
-            ))}
+                    />
+                ))}
+            </Box>
 
             <CustomButton btnName='&gt;' type='button' onClick={goToNextPage}
-                          disabled={currentPage === countPage}/>
+            />
         </Box>
     );
 };

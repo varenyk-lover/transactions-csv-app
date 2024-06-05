@@ -18,18 +18,18 @@ interface DeleteModalProps {
     transaction: Transaction;
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onConfirm, transaction, }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, onClose, onConfirm, transaction,}) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
+            <ModalOverlay/>
             <ModalContent>
                 <ModalHeader textAlign='center' paddingTop='40px'>Confirm Deletion</ModalHeader>
-                <ModalCloseButton />
+                <ModalCloseButton/>
                 <ModalBody padding='0 40px'>
                     Are you sure you want to delete the transaction with ID {transaction.TransactionId}?
                 </ModalBody>
                 <ModalFooter>
-                    <CustomButton btnName='Delete' type='button' onClick={onConfirm} />
+                    <CustomButton btnName='Delete' type='button' onClick={onConfirm}/>
                 </ModalFooter>
             </ModalContent>
         </Modal>

@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import {Box} from "@chakra-ui/react";
 import TransactionTable from "../TransactionTable/TransactionTable";
 import styled from "styled-components";
 import FilterMenu from "../FilterMenu/FilterMenu";
@@ -6,7 +6,7 @@ import ImportExportMenu from "../ImportExportMenu/ImportExportMenu";
 import PaginationMenu from "../PaginationMenu/PaginationMenu";
 import EditModal from "../EditModal/EditModal";
 import DeleteModal from "../DeletModal/DeleteModal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Transaction} from "../../types/Transaction";
 import {useTDispatch, useTSelector} from "../hooks/reduxHooks";
 import {deleteTransactions, updateTransactionStatus} from "../../redux/transactionsSlice";
@@ -25,21 +25,22 @@ const MainBlock = () => {
     const paginatedTransactions = transactions.slice((currentPage - 1) * transactionsInPage, currentPage *
         transactionsInPage);
 
-    console.log(transactions);
 
-    const editBtnStyle = {
-        width: "80px",
-    };
+    //check current page after filtration and deleting
+    useEffect(() => {
+        const maxPage = Math.ceil(transactions.length / transactionsInPage);
+        if (currentPage > maxPage) {
+            setCurrentPage(maxPage || 1);
+        }
+    }, [transactions, transactionsInPage, currentPage]);
 
     //Deleting logic
     const openDeleteModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setDeleteModalOpen(true);
-        console.log("open DeleteModal");
     };
 
     const closeDeleteModal = () => {
-        console.log("close DeleteModal");
         setDeleteModalOpen(false);
         setSelectedTransaction(null);
     };
@@ -48,7 +49,6 @@ const MainBlock = () => {
         if (selectedTransaction) {
             dispatch(deleteTransactions(selectedTransaction.TransactionId));
             closeDeleteModal();
-            console.log("Deleted ID " + selectedTransaction.TransactionId);
         }
     };
 
@@ -57,51 +57,54 @@ const MainBlock = () => {
     const openEditModal = (transaction: Transaction) => {
         setSelectedTransaction(transaction);
         setEditModalOpen(true);
-        console.log("open EditModal");
     };
 
     const closeEditModal = () => {
-        console.log("close closeEditModal");
         setEditModalOpen(false);
         setSelectedTransaction(null);
     };
 
-    const handleEditSubmit = (data: {   Status: string }) => {
+    const handleEditSubmit = (data: { Status: string }) => {
         if (selectedTransaction) {
             dispatch(updateTransactionStatus({TransactionId: selectedTransaction.TransactionId, Status: data.Status}));
 
         }
     };
-  return (
-    <StyledMain>
-      <Box display="flex" gap='100px' width="100%" justifyContent='space-between' marginBottom="10px">
-        <FilterMenu />
-        <ImportExportMenu />
-      </Box>
-      <TransactionTable paginatedTransactions={paginatedTransactions} onEdit={openEditModal} onDelete={openDeleteModal} />
+    return (
+        <StyledMain>
+            <Box display="flex" gap='100px' width="100%" justifyContent='space-between' marginBottom="10px">
+                <FilterMenu/>
+                <ImportExportMenu/>
+            </Box>
 
-        <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage}
-                        transactionsInPage={transactionsInPage}/>
+            <Box>
+                <TransactionTable paginatedTransactions={paginatedTransactions} onEdit={openEditModal}
+                                  onDelete={openDeleteModal}/>
 
-        {selectedTransaction && (
-            <EditModal
-                isOpen={isEditModalOpen}
-                onClose={closeEditModal}
-                onSubmit={handleEditSubmit}
-                transaction={selectedTransaction}
-            />
-        )}
+                <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage}
+                                transactionsInPage={transactionsInPage}/>
+            </Box>
 
-        {selectedTransaction && (
-            <DeleteModal
-                isOpen={isDeleteModalOpen}
-                onClose={closeDeleteModal}
-                onConfirm={handleDeleteConfirm}
-                transaction={selectedTransaction}
-            />
-        )}
-    </StyledMain>
-  );
+
+            {selectedTransaction && (
+                <EditModal
+                    isOpen={isEditModalOpen}
+                    onClose={closeEditModal}
+                    onSubmit={handleEditSubmit}
+                    transaction={selectedTransaction}
+                />
+            )}
+
+            {selectedTransaction && (
+                <DeleteModal
+                    isOpen={isDeleteModalOpen}
+                    onClose={closeDeleteModal}
+                    onConfirm={handleDeleteConfirm}
+                    transaction={selectedTransaction}
+                />
+            )}
+        </StyledMain>
+    );
 };
 
 export default MainBlock;
