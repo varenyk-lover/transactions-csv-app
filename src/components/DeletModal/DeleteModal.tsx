@@ -29,7 +29,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onConfirm, t
                     Are you sure you want to delete the transaction with ID {transaction.TransactionId}?
                 </ModalBody>
                 <ModalFooter>
-                    <CustomButton name='Delete' type='button' onClick={onConfirm} />
+                    <CustomButton btnName='Delete' type='button' onClick={onConfirm} />
                 </ModalFooter>
             </ModalContent>
         </Modal>

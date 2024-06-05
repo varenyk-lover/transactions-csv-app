@@ -65,9 +65,8 @@ const TransactionTable: React.FC = () => {
 
     const handleEditSubmit = (data: {   Status: string }) => {
         if (selectedTransaction) {
-            dispatch(updateTransactionStatus({TransactionId: selectedTransaction.TransactionId, Status: selectedTransaction.Status}));
-            closeEditModal();
-            console.log("Edited ID " + selectedTransaction.TransactionId);
+            dispatch(updateTransactionStatus({TransactionId: selectedTransaction.TransactionId, Status: data.Status}));
+
         }
     };
 
@@ -95,9 +94,9 @@ const TransactionTable: React.FC = () => {
                             <Td textAlign="center">{transaction.Amount}</Td>
                             <Td display='flex' justifyContent='space-around'>
                                 <Box display='flex' width="170px" gap='10px' justifyContent='space-between'>
-                                    <CustomButton onClick={() => openEditModal(transaction)} name='Edit' type='button'
+                                    <CustomButton onClick={() => openEditModal(transaction)} btnName='Edit' type='button'
                                                   customStyles={editBtnStyle}/>
-                                    <CustomButton onClick={() => openDeleteModal(transaction)} name='Delete'
+                                    <CustomButton onClick={() => openDeleteModal(transaction)} btnName='Delete'
                                                   type='button'/>
                                 </Box>
                             </Td>

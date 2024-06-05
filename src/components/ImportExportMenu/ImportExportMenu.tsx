@@ -1,10 +1,11 @@
-import {Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
-import {parse, unparse} from "papaparse";
-import {saveAs} from "file-saver";
-import {useTDispatch, useTSelector} from "../hooks/reduxHooks";
-import {addTransactions} from "../../redux/transactionsSlice";
+import { parse, unparse } from "papaparse";
+import { saveAs } from "file-saver";
+import { useTDispatch, useTSelector } from "../hooks/reduxHooks";
+import { addTransactions } from "../../redux/transactionsSlice";
 import styled from "styled-components";
+import {Transaction} from "../../types/Transaction";
 
 const ImportExportMenu = () => {
     const transactions = useTSelector((state) => state.transactions.allTransactions);
@@ -14,13 +15,15 @@ const ImportExportMenu = () => {
         width: "150px",
     };
 
-    const handleImport = (event) => {
-        const file = event.target.files[0];
+    const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // const file = event.target.files?[0];
+        const target= event.target as HTMLInputElement;
+        const file: File = (target.files as FileList)[0];
         if (file) {
             parse(file, {
                 header: true,
                 complete: (results) => {
-                    dispatch(addTransactions(results.data));
+                    dispatch(addTransactions(results.data as Transaction[]));
                 },
                 error: (error) => {
                     console.error("Error parsing CSV file:", error);
@@ -36,42 +39,23 @@ const ImportExportMenu = () => {
         const csvCol = unparse(transactions, {
             header: false,
             columns:
-                // ["id", "status", "type", "clientName", "amount"]
-            [ "TransactionId",
-      "Status",
-      "Type",
-     "ClientName",
-    "Amount"]
+                ["TransactionId",
+                    "Status",
+                    "Type",
+                    "ClientName",
+                    "Amount"]
         });
 
-        const csvFields = unparse({fields: ["ID", "STATUS", "TYPE", "CLIENT NAME", "AMOUNT"], data: []});
+        const csvFields = unparse({ fields: ["ID", "STATUS", "TYPE", "CLIENT NAME", "AMOUNT"], data: [] });
         const result = csvFields + csvCol;
-        const blob = new Blob([result], {type: "text/csv;charset=utf-8;"});
+        const blob = new Blob([result], { type: "text/csv;charset=utf-8;" });
         saveAs(blob);
     };
 
     return (
 
         <Box display='flex' width='400' gap='10px'
-             justifyContent='space-between'>
-            {/*     <CustomButton onClick={() => handleImport()} name='Import' type='button' size='lg'
-                          customStyles={bigBtnStyle}/>*/}
-
-            {/*   <input
-                type="file"
-                accept=".csv"
-                onChange={handleImport}
-                style={{ display: 'none' }}
-                id="import-csv"
-            />
-            <CustomButton
-                as="label"
-                htmlFor="import-csv"
-                name='Import'
-                type='button'
-                size='lg'
-                customStyles={bigBtnStyle}
-            />*/}
+            justifyContent='space-between'>
 
             <Box>
                 <StyledLabel
@@ -89,8 +73,8 @@ const ImportExportMenu = () => {
             </Box>
 
 
-            <CustomButton onClick={handleExport} name='Export' type='button' size='lg'
-                          customStyles={bigBtnStyle}/>
+            <CustomButton onClick={handleExport} btnName='Export' type='button' size='lg'
+                customStyles={bigBtnStyle} />
 
 
         </Box>

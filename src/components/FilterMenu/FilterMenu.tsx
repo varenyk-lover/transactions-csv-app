@@ -23,10 +23,10 @@ const FilterMenu = () => {
     };
     return (
         <Box width='50%' display='flex' justifyContent='column' gap='10px' marginBottom='125px'>
-            <CustomSelect placeholder="Status"
+         {/*   <CustomSelect placeholder="Status"
                 onChange={handleStatusChange} options={statusOptions} />
             <CustomSelect placeholder="Type"
-                onChange={handleTypeChange} options={typeOptions} />
+                onChange={handleTypeChange} options={typeOptions} />*/}
         </Box>
     );
 };

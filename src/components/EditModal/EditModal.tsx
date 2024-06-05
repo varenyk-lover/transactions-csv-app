@@ -11,7 +11,7 @@ import {
 import CustomSelect from "../commonUI/CustomSelect/CustomSelect";
 import CustomButton from "../commonUI/CustomButton/CustomButton";
 import styled from "styled-components";
-import {Transaction} from "../../types/Transaction";
+import { Transaction } from "../../types/Transaction";
 
 
 interface EditModalProps {
@@ -22,26 +22,28 @@ interface EditModalProps {
 }
 
 const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSubmit, transaction }) => {
-    const { handleSubmit, reset , register} = useForm<{ Status: string }>();
-
-
     const statusOptions = [
         { value: "Pending", label: "Pending" },
         { value: "Completed", label: "Completed" },
         { value: "Cancelled", label: "Cancelled" },
     ];
 
+    const { handleSubmit, reset, register } = useForm<{ Status: string }>();
+
+
     const handleClose = () => {
         reset();
         onClose();
     };
 
-    //for test
-    const handleSave = (data: {  Status: string }) => {
+    const handleSave = (data: { Status: string }) => {
         console.log(data)
         onSubmit(data);
         handleClose();
     };
+
+
+
 
     return (
         <Modal isOpen={isOpen} onClose={handleClose}>
@@ -52,22 +54,12 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSubmit, transa
                 <ModalBody>
                     <StyledForm onSubmit={handleSubmit(handleSave)}>
                         <FormControl id="status">
-                            {/*for test*/}
-                      {/*      <CustomSelect {...register('status', { required: true })} placeholder="Status"
-                                options={statusOptions} />*/}
 
-                            {/*for test*/}
-                            <Select defaultValue={transaction.Status} {...register('Status', { required: true })}>
-                                {statusOptions.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </Select>
+                            <CustomSelect name="Status" options={statusOptions} defaultValue={transaction.Status}  {...register('Status', { required: true })} />
 
                         </FormControl>
 
-                        <CustomButton name='Save' type='submit' />
+                        <CustomButton btnName='Save' type='submit' />
 
                     </StyledForm>
                 </ModalBody>
