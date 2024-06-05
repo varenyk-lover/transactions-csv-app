@@ -8,7 +8,7 @@ import styled from "styled-components";
 import {Transaction} from "../../types/Transaction";
 
 const ImportExportMenu = () => {
-    const transactions = useTSelector((state) => state.transactions.allTransactions);
+    const transactions = useTSelector((state) => state.transactions.filteredTransactions);
     const dispatch = useTDispatch();
 
     const bigBtnStyle = {
