@@ -37,7 +37,7 @@ const EditModal: React.FC<EditModalProps> = ({isOpen, onClose, onSubmit, transac
     };
 
     const handleSave = (data: { Status: string }) => {
-
+        console.log('edit ')
         onSubmit(data);
         handleClose();
     };
@@ -54,7 +54,6 @@ const EditModal: React.FC<EditModalProps> = ({isOpen, onClose, onSubmit, transac
                         <FormControl id="status">
 
                             <CustomSelect
-
                                 options={statusOptions}
                                 defaultValue={transaction.Status}  {...register("Status", {required: true})} />
 

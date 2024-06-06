@@ -13,9 +13,9 @@ interface CustomSelectProps {
 }
 
 const CustomSelect = forwardRef<HTMLSelectElement, CustomSelectProps>(
-    ({onChange, placeholder, options, defaultValue}, ref) => {
+    ({onChange, placeholder, options, defaultValue, ...etc}, ref ) => {
         return (
-            <Select variant="outline" placeholder={placeholder} defaultValue={defaultValue}   ref={ref}
+            <Select variant="outline" placeholder={placeholder} defaultValue={defaultValue}   ref={ref} {...etc}
                     borderRadius='0' border='2px solid black '
                     onChange={onChange}>
                 {options.map(option => (
