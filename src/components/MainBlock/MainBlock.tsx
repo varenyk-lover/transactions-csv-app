@@ -25,6 +25,7 @@ const MainBlock = () => {
     const paginatedTransactions = transactions.slice((currentPage - 1) * transactionsInPage, currentPage *
         transactionsInPage);
 
+    const tableHeaders = ['ID', 'Status', 'Type', 'Client Name', 'Amount', 'Action'];
 
     //check current page after filtration and deleting
     useEffect(() => {
@@ -78,7 +79,7 @@ const MainBlock = () => {
             </Box>
 
             <Box>
-                <TransactionTable paginatedTransactions={paginatedTransactions} onEdit={openEditModal}
+                <TransactionTable paginatedTransactions={paginatedTransactions} tableHeaders={tableHeaders} onEdit={openEditModal}
                                   onDelete={openDeleteModal}/>
 
                 <PaginationMenu transactions={transactions} currentPage={currentPage} onPageChange={setCurrentPage}
